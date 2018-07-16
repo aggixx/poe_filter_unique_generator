@@ -1,0 +1,20 @@
+Show  
+	Rarity  Unique
+	PlayAlertSound 1 160
+	SetBorderColor 175 96 37 255
+	SocketGroup  WWWWWW
+	BaseType  "Simple Robe"
+	SetFontSize 45
+
+Show
+	LinkedSockets  6
+	Rarity Unique
+	PlayAlertSound 1 270
+	SetFontSize  45
+
+Show
+	Class Piece
+	PlayAlertSound 1 160
+	SetFontSize  45
+	
+# ======================================================
