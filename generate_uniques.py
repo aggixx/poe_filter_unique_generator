@@ -15,18 +15,34 @@ league = "tmphardcore";
 priceGroupings = [{
 		"minValue": 1.50,
 		"volume": 100,
+		"iconShape": "Star",
+		"iconColor": "White",
+		"iconSize": 2,
+		"flareColor": "White",
 	},
 	{
 		"minValue": 5.0,
 		"volume": 115,
+		"iconShape": "Star",
+		"iconColor": "Yellow",
+		"iconSize": 1,
+		"flareColor": "Yellow",
 	},
 	{
 		"minValue": 25.0,
 		"volume": 145,
+		"iconShape": "Star",
+		"iconColor": "Red",
+		"iconSize": 0,
+		"flareColor": "Red",
 	},
 	{
 		"minValue": 75.0,
 		"volume": 175,
+		"iconShape": "Star",
+		"iconColor": "Red",
+		"iconSize": 0,
+		"flareColor": "Red",
 	},
 ];
 
@@ -419,14 +435,21 @@ def process_data(data, filter_league_specific=False):
 			SetBorderColor 175 96 37 255
 			SetFontSize 45
 			PlayAlertSound 1 {}
-			BaseType {}
-			""".format(
+			BaseType {}""".format(
 				group['minValue'],
 				len(groupItems),
 				totalItems,
 				group['volume'],
 				u" ".join(map(lambda i: u'"{}"'.format(i), groupItems))
 			)
+			
+			if 'iconShape' in group:
+				s += u"\nMinimapIcon {} {} {}".format(group['iconSize'], group['iconColor'], group['iconShape'])
+				
+			if 'flareColor' in group:
+				s += u"\nPlayEffect {}".format(group['flareColor'])
+				
+			s += u"\n"
 			
 			entries.append(s)
 			itemsShown += len(groupItems)
@@ -438,7 +461,7 @@ def process_data(data, filter_league_specific=False):
 		Hide # {} of {} bases
 		Rarity Unique
 		SetFontSize 18
-		DisableDropSound 1
+		DisableDropSound
 		BaseType {}
 		""".format(
 			len(itemDict),
@@ -458,7 +481,7 @@ def process_data(data, filter_league_specific=False):
 		BaseType {}
 		""".format(u" ".join(map(lambda i: u'"{}"'.format(i), conflict.keys())))
 		
-		entries.insert(s, 0)
+		entries.insert(0, s)
 		
 	return entries
 	
@@ -488,6 +511,8 @@ for key in map(lambda k: str(k), sorted(map(lambda k: int(k), bossDropBases.keys
 	SetFontSize 45
 	PlayAlertSound 1 100
 	SetBackgroundColor 255 128 0 64
+	MinimapIcon 0 Red Star
+	PlayEffect Red
 	ItemLevel = {}
 	BaseType {}
 	""".format(
@@ -545,12 +570,12 @@ for path in files:
 		
 		try:
 			# Find uniques section
-			start = filter.index("=\r\n# [[2200]] Uniques")
+			start = filter.index("=\r\n# [[2300]] Uniques")
 			# Find end of header
 			start2 = filter.index("\r\n\r\n", start) + 4
 			
 			# Find end of uniques section
-			end = filter.index("=\r\n# [[2300]]")
+			end = filter.index("=\r\n# [[2400]]")
 			# Find start of header
 			end2 = filter.rfind("\r\n\r\n", 0, end)
 		except ValueError:
