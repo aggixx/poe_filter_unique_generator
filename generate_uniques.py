@@ -10,7 +10,9 @@ import os
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 # soft config
-league = "tmphardcore";
+league = sys.argv[3];
+	
+print "Generating unique filter chunk for league {}".format(league)
 
 priceGroupings = [{
 		"minValue": 1.50,
@@ -49,9 +51,9 @@ priceGroupings = [{
 hideThreshold = priceGroupings[0]['minValue'];
 
 # hard config
-requests = ["Weapon", "Armour", "Flask", "Accessory"];
+requests = ["UniqueWeapon", "UniqueArmour", "UniqueFlask", "UniqueAccessory"];
 #requests = ["Weapon", "Armour", "Flask", "Jewel", "Accessory"];
-urlRoot = "http://poe.ninja/api/Data/";
+urlRoot = "http://poe.ninja/api/Data";
 
 bossDropWhitelist = {};
 
@@ -328,7 +330,7 @@ def encodeURI(u):
 	return urllib2.quote(u, safe='~@#$&()*!+=:;,.?/\'')
 
 def pullData(t):
-	url = encodeURI(urlRoot + "GetUnique" + t + "Overview?league=" + league);
+	url = encodeURI("{}/itemoverview?league={}&type={}".format(urlRoot, league, t));
 	print url
 	
 	return util.get_url_as_json(url)
@@ -570,12 +572,12 @@ for path in files:
 		
 		try:
 			# Find uniques section
-			start = filter.index("=\r\n# [[2300]] Uniques")
+			start = filter.index("=\r\n# [[2200]] Uniques")
 			# Find end of header
 			start2 = filter.index("\r\n\r\n", start) + 4
 			
 			# Find end of uniques section
-			end = filter.index("=\r\n# [[2400]]")
+			end = filter.index("=\r\n# [[2300]]")
 			# Find start of header
 			end2 = filter.rfind("\r\n\r\n", 0, end)
 		except ValueError:
