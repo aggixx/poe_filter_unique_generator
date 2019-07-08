@@ -4,3 +4,5 @@ Show
 	Rarity Unique
 	PlayAlertSound 1 160
 	SetFontSize  45
+	MinimapIcon 2 White Star
+	PlayEffect White
