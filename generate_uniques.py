@@ -14,13 +14,19 @@ league = sys.argv[3];
 	
 print "Generating unique filter chunk for league {}".format(league)
 
-priceGroupings = [{
+# allowMixedBases
+#   when False, the base type's minimum value must fall in that price range to qualify for that group
+#   when True, only the maximum value needs to fall in that range to qualify
+
+priceGroupings = [
+	{
 		"minValue": 1.50,
 		"volume": 100,
 		"iconShape": "Star",
 		"iconColor": "White",
 		"iconSize": 2,
 		"flareColor": "White",
+		"allowMixedBases": True,
 	},
 	{
 		"minValue": 5.0,
@@ -29,6 +35,7 @@ priceGroupings = [{
 		"iconColor": "Yellow",
 		"iconSize": 1,
 		"flareColor": "Yellow",
+		"allowMixedBases": True,
 	},
 	{
 		"minValue": 25.0,
@@ -37,6 +44,7 @@ priceGroupings = [{
 		"iconColor": "Red",
 		"iconSize": 0,
 		"flareColor": "Red",
+		"allowMixedBases": False,
 	},
 	{
 		"minValue": 75.0,
@@ -45,6 +53,7 @@ priceGroupings = [{
 		"iconColor": "Red",
 		"iconSize": 0,
 		"flareColor": "Red",
+		"allowMixedBases": False,
 	},
 ];
 
@@ -396,9 +405,9 @@ def process_data(data, filter_league_specific=False):
 			uniqueArts[item['icon']] = item['levelRequired'];
 
 		if item['baseType'] not in itemDict:
-			itemDict[item['baseType']] = 0;
+			itemDict[item['baseType']] = {};
 
-		itemDict[item['baseType']] = max(itemDict[item['baseType']], item['chaosValue']);
+		itemDict[item['baseType']][item['name']] = item['chaosValue'];
 
 	conflict = {};
 	entries = [];
@@ -414,21 +423,24 @@ def process_data(data, filter_league_specific=False):
 		
 		while len(iterlist) > 0:
 			pair = iterlist.pop()
-			key = pair[0]
-			value = pair[1]
+			baseType = pair[0]
+			valueDict = pair[1]
+
+			minBaseValue = min(valueDict.values())
+			maxBaseValue = max(valueDict.values())
 			
 			#print "{}\t{}\t{}".format(key.encode('ascii', 'ignore'), value, group['minValue'])
-			
-			if value >= group['minValue']:
-				groupItems.append(key)
-				#print "Added {} to {}c group.".format(key, group['minValue'])
+
+			if minBaseValue >= group['minValue'] or (group['allowMixedBases'] and maxBaseValue >= group['minValue']):
+				groupItems.append(baseType)
+				print "Added {} to {}c group.".format(baseType, group['minValue'])
 				
 				# conflict avoidance
-				for key2 in itemDict:
-					if key != key2 and key in key2 and itemDict[key2] > hideThreshold:
-						conflict[key2] = True
+				for baseType2 in itemDict:
+					if baseType != baseType2 and baseType in baseType2 and itemDict[baseType2] > hideThreshold:
+						conflict[baseType2] = True
 					
-				itemDict.pop(key)
+				itemDict.pop(baseType)
 						
 		if len(groupItems) > 0:
 			s = u"""
