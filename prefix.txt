@@ -5,16 +5,22 @@ Show
 	SocketGroup  WWWWWW
 	BaseType  "Simple Robe"
 	SetFontSize 45
+	MinimapIcon 0 Yellow Star
+	PlayEffect Yellow
 
 Show
 	LinkedSockets  6
 	Rarity Unique
 	PlayAlertSound 1 270
 	SetFontSize  45
+	MinimapIcon 0 Red Star
+	PlayEffect Red
 
 Show
 	Class Piece
 	PlayAlertSound 1 160
 	SetFontSize  45
+	MinimapIcon 0 Yellow Star
+	PlayEffect Yellow
 	
 # ======================================================
