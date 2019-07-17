@@ -18,6 +18,9 @@ print "Generating unique filter chunk for league {}".format(league)
 #   when False, the base type's minimum value must fall in that price range to qualify for that group
 #   when True, only the maximum value needs to fall in that range to qualify
 
+# mixedBaseSizeOffset
+#	for mixed bases, this value is added to the icon size for that tier
+
 priceGroupings = [
 	{
 		"minValue": 1.50,
@@ -36,6 +39,7 @@ priceGroupings = [
 		"iconSize": 1,
 		"flareColor": "Yellow",
 		"allowMixedBases": True,
+		"mixedBaseSizeOffset": 1,
 	},
 	{
 		"minValue": 25.0,
@@ -418,6 +422,7 @@ def process_data(data, filter_league_specific=False):
 	while len(pg) > 0:
 		group = pg.pop();
 		groupItems = []
+		groupItemsMixed = []
 		
 		iterlist = itemDict.items()
 		
@@ -430,11 +435,19 @@ def process_data(data, filter_league_specific=False):
 			maxBaseValue = max(valueDict.values())
 			
 			#print "{}\t{}\t{}".format(key.encode('ascii', 'ignore'), value, group['minValue'])
+			
+			handled = False
 
-			if minBaseValue >= group['minValue'] or (group['allowMixedBases'] and maxBaseValue >= group['minValue']):
+			if minBaseValue >= group['minValue']:
 				groupItems.append(baseType)
 				print "Added {} to {}c group.".format(baseType, group['minValue'])
-				
+				handled = True
+			elif group['allowMixedBases'] and maxBaseValue >= group['minValue']:
+				groupItemsMixed.append(baseType)
+				print "Added {} to {}c mixed group.".format(baseType, group['minValue'])
+				handled = True
+			
+			if handled:
 				# conflict avoidance
 				for baseType2 in itemDict:
 					if baseType != baseType2 and baseType in baseType2 and itemDict[baseType2] > hideThreshold:
@@ -467,6 +480,37 @@ def process_data(data, filter_league_specific=False):
 			
 			entries.append(s)
 			itemsShown += len(groupItems)
+						
+		if len(groupItemsMixed) > 0:
+			s = u"""
+			Show # {}c+, mixed ({} of {} bases) 
+			Rarity Unique
+			SetBorderColor 175 96 37 255
+			SetFontSize 45
+			PlayAlertSound 1 {}
+			BaseType {}""".format(
+				group['minValue'],
+				len(groupItemsMixed),
+				totalItems,
+				group['volume'],
+				u" ".join(map(lambda i: u'"{}"'.format(i), groupItemsMixed))
+			)
+			
+			if 'iconShape' in group:
+				size = group['iconSize']
+				
+				if 'mixedBaseSizeOffset' in group:
+					size = max(0, min(2, size + group['mixedBaseSizeOffset']))
+				
+				s += u"\nMinimapIcon {} {} {}".format(size, group['iconColor'], group['iconShape'])
+				
+			if 'flareColor' in group:
+				s += u"\nPlayEffect {}".format(group['flareColor'])
+				
+			s += u"\n"
+			
+			entries.append(s)
+			itemsShown += len(groupItemsMixed)
 
 	if len(itemDict) > 0:
 		#print itemDict.keys()
