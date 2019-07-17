@@ -23,7 +23,7 @@ print "Generating unique filter chunk for league {}".format(league)
 
 priceGroupings = [
 	{
-		"minValue": 1.50,
+		"minValue": 2.0,
 		"volume": 100,
 		"iconShape": "Star",
 		"iconColor": "White",
@@ -32,7 +32,7 @@ priceGroupings = [
 		"allowMixedBases": True,
 	},
 	{
-		"minValue": 5.0,
+		"minValue": 6.5,
 		"volume": 115,
 		"iconShape": "Star",
 		"iconColor": "Yellow",
