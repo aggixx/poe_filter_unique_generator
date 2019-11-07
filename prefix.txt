@@ -23,4 +23,15 @@ Show
 	MinimapIcon 0 Yellow Star
 	PlayEffect Yellow
 	
+# Shackles
+Show
+	Rarity Unique
+	PlayAlertSound 1 160
+	SetBorderColor 175 96 37 255
+	BaseType "Chain Gloves"
+	SetFontSize 45
+	MinimapIcon 1 Yellow Star
+	PlayEffect Yellow
+	
+	
 # ======================================================
