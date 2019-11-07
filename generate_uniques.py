@@ -1,4 +1,3 @@
-import util
 import urllib2
 import json
 import sys
@@ -6,6 +5,9 @@ import copy
 import codecs
 import glob
 import os
+
+import essence
+import util
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -335,15 +337,12 @@ leagueSpecificWhitelist = [
 def isBossWhitelisted(n):
 	for key in bossDropWhitelist:
 		if n in bossDropWhitelist[key]:
-			return True;
+			return True
 			
-	return False;
-	
-def encodeURI(u):
-	return urllib2.quote(u, safe='~@#$&()*!+=:;,.?/\'')
+	return False
 
 def pullData(t):
-	url = encodeURI("{}/itemoverview?league={}&type={}".format(urlRoot, league, t));
+	url = util.encodeURI("{}/itemoverview?league={}&type={}".format(urlRoot, league, t));
 	print url
 	
 	return util.get_url_as_json(url)
@@ -616,6 +615,8 @@ with codecs.open("_ls.".join(sys.argv[2].split(".")), "w", 'utf-8') as f:
 
 files = glob.glob(sys.argv[1])
 
+Essences = essence.EssenceGenerator(league)
+
 for path in files:
 	if "_LS_" in path:
 		continue
@@ -625,33 +626,42 @@ for path in files:
 	
 	with codecs.open(path, "r", "utf-8") as f:
 		filter = f.read()
+
+	print("Modifying '{}'...".format(path))
+	
+	try:
+		# Find uniques section
+		start = filter.index("=\r\n# [[3200]] Uniques")
+		# Find end of header
+		start2 = filter.index("\r\n\r\n", start) + 4
 		
-		try:
-			# Find uniques section
-			start = filter.index("=\r\n# [[2600]] Uniques")
-			# Find end of header
-			start2 = filter.index("\r\n\r\n", start) + 4
-			
-			# Find end of uniques section
-			end = filter.index("=\r\n# [[2700]]")
-			# Find start of header
-			end2 = filter.rfind("\r\n\r\n", 0, end)
-		except ValueError:
-			print "Could not find section when editing '{}'".format(path)
-			continue
-		
+		# Find end of uniques section
+		end = filter.index("=\r\n# [[3300]]")
+		# Find start of header
+		end2 = filter.rfind("\r\n\r\n", 0, end)
+	
 		# Splice filter
 		before = filter[:start2]
 		after = filter[end2:]
-	
+
+		filter = before + filter_str + after
+	except ValueError:
+		print "Could not find uniques section".format(path)
+		continue
+
+	filter = Essences.apply(filter)
+
 	with codecs.open(path, "w", "utf-8") as f:
-		f.write( before + filter_str + after )
+		f.write( filter )
 			
 	print "Successfully edited '{}'".format(path)
 	
+	
+	"""
 	path2 = "_LS_".join(path.split("_"))
 	
 	with codecs.open(path2, "w", "utf-8") as f:
 		f.write( before + filter_str_ls + after )
 			
 	print "Successfully edited '{}'".format(path2)
+	"""

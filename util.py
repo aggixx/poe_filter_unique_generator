@@ -18,3 +18,6 @@ def get_url_data(raw_url):
 	
 def get_url_as_json(url):
 	return json.loads(get_url_data(url))
+
+def encodeURI(u):
+	return urllib2.quote(u, safe='~@#$&()*!+=:;,.?/\'')
