@@ -114,7 +114,29 @@ bdAdd(82, [
 	"The Vertex"
 ]);
 
-# Guardians
+# Elder Guardians
+bdAdd([83, 84, 85], [
+	"Memory Vault",
+	"Vulconus",
+	"Leper's Alms",
+	"The Beltimber Blade",
+	"The Grelwood Shank",
+	"Gloomfang",
+	"Yoke of Suffering"
+]);
+
+# Elder
+bdAdd(86, [
+	"Blasphemer's Grasp",
+	"Cyclopean Coil",
+	"Nebuloch",
+	"Shimmeron",
+	"Hopeshredder",
+	"Watcher's Eye",
+	"Impresence"
+]);
+
+# Shaper Guardians
 bdAdd(85, [
 	"Eye of Innocence",
 	"Razor of the Seventh Sun",
@@ -195,6 +217,29 @@ bdAdd(72, [
 	"Saqawal's Winds"
 ]);
 
+# Cortex
+bdAdd(85, [
+	"Bottled Faith",
+	"Garb of the Ephemeral",
+	"Nebulis",
+	"Offering to the Serpent"
+]);
+
+# Sirus
+bdAdd([83, 84, 85, 86], [
+	"Crown of the Inward Eye",
+	"Hands of the High Templar",
+	"Thread of Hope",
+	"The Saviour",
+	"Irresistable Temptation",
+	"Booming Populace",
+	"Misinformation",
+	"Stalwart Defenders",
+	"Territories Unknown",
+	"Terror",
+	"War Among the Stars"
+]);
+
 miscWhitelist = [
 	# Vendor Recipe only
 	"The Anima Stone",
@@ -207,6 +252,8 @@ miscWhitelist = [
 	"The Taming",
 	"The Vinktar Square",
 	"Loreweave",
+	"Arborix",
+	"Magna Eclipsis",
 	# Rigwald
 	"Rigwald's Command",
 	"Rigwald's Crest",
