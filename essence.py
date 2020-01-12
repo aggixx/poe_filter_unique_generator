@@ -152,12 +152,12 @@ class EssenceGenerator:
 	def apply(self, filter):
 		#try:
 		# Find uniques section
-		start = filter.index("-\r\n#   [2907] Essence Tier List")
+		start = filter.index("-\r\n#   [3008] Essence Tier List")
 		# Find end of header
 		start2 = filter.index("\r\n\r\n", start) + 4
 		
 		# Find end of uniques section
-		end = filter.index("-\r\n#   [2908]")
+		end = filter.index("-\r\n#   [3009]")
 		# Find start of header
 		end2 = filter.rfind("\r\n\r\n", 0, end)
 	
@@ -168,5 +168,7 @@ class EssenceGenerator:
 		filter = before + self.getFilterChunk() + after
 		#except ValueError:
 		#	print "Could not find {} section".format(self.type)
+
+		print "Updated essences section."
 
 		return filter
