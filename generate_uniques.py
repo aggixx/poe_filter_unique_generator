@@ -365,12 +365,12 @@ def process_data(data, filter_league_specific=False):
 
 	for key in bossDropWhitelist.keys():
 		if key not in bossDropBases:
-			bossDropBases[key] = [];
+			bossDropBases[key] = set()
 
 		for name in bossDropWhitelist[key]:
 			for item in items:
 				if item['name'] == name:
-					bossDropBases[key].append(item['baseType']);
+					bossDropBases[key].add(item['baseType'])
 					break;
 					
 	#print bossDropBases
