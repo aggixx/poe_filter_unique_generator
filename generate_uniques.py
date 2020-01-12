@@ -530,7 +530,7 @@ def process_data(data, filter_league_specific=False):
 	
 	if len(conflict) > 0:
 		s = u"""
-		Show # Avoid conflicts\
+		Show # Avoid conflicts
 		Rarity Unique
 		SetFontSize 45
 		SetBorderColor 175 96 37 255
@@ -631,12 +631,12 @@ for path in files:
 	
 	try:
 		# Find uniques section
-		start = filter.index("=\r\n# [[3200]] Uniques")
+		start = filter.index("=\r\n# [[3400]] Uniques")
 		# Find end of header
 		start2 = filter.index("\r\n\r\n", start) + 4
 		
 		# Find end of uniques section
-		end = filter.index("=\r\n# [[3300]]")
+		end = filter.index("=\r\n# [[3500]]")
 		# Find start of header
 		end2 = filter.rfind("\r\n\r\n", 0, end)
 	
