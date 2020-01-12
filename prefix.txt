@@ -1,3 +1,10 @@
+Show # $type->uniques $tier->ex
+	Rarity Unique
+	BaseType "Metamorph" "Ivory Watchstone"
+	SetFontSize 45
+	PlayEffect Green
+	MinimapIcon 1 Green Star
+
 Show  
 	Rarity  Unique
 	PlayAlertSound 1 160
