@@ -152,12 +152,12 @@ class EssenceGenerator:
 	def apply(self, filter):
 		#try:
 		# Find uniques section
-		start = filter.index("-\r\n#   [3008] Essence Tier List")
+		start = filter.index("-\r\n#   [3708] Essence Tier List")
 		# Find end of header
 		start2 = filter.index("\r\n\r\n", start) + 4
 		
 		# Find end of uniques section
-		end = filter.index("-\r\n#   [3009]")
+		end = filter.index("-\r\n#   [3709]")
 		# Find start of header
 		end2 = filter.rfind("\r\n\r\n", 0, end)
 	

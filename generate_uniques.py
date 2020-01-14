@@ -678,12 +678,12 @@ for path in files:
 	
 	try:
 		# Find uniques section
-		start = filter.index("=\r\n# [[3400]] Uniques")
+		start = filter.index("=\r\n# [[4200]] Uniques")
 		# Find end of header
 		start2 = filter.index("\r\n\r\n", start) + 4
 		
 		# Find end of uniques section
-		end = filter.index("=\r\n# [[3500]]")
+		end = filter.index("=\r\n# [[4300]]")
 		# Find start of header
 		end2 = filter.rfind("\r\n\r\n", 0, end)
 	
