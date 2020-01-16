@@ -254,6 +254,7 @@ miscWhitelist = [
 	"Loreweave",
 	"Arborix",
 	"Magna Eclipsis",
+	"Precursor's Emblem",
 	# Rigwald
 	"Rigwald's Command",
 	"Rigwald's Crest",
