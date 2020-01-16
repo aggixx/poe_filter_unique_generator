@@ -463,6 +463,8 @@ def process_data(data, filter_league_specific=False):
 	conflict = {};
 	entries = [];
 	itemsShown = 0;
+
+	debugDict = {};
 		
 	pg = copy.deepcopy(priceGroupings)
 
@@ -480,6 +482,8 @@ def process_data(data, filter_league_specific=False):
 
 			minBaseValue = min(valueDict.values())
 			maxBaseValue = max(valueDict.values())
+
+			debugDict[baseType] = valueDict
 			
 			#print "{}\t{}\t{}".format(key.encode('ascii', 'ignore'), value, group['minValue'])
 			
@@ -558,6 +562,9 @@ def process_data(data, filter_league_specific=False):
 			
 			entries.append(s)
 			itemsShown += len(groupItemsMixed)
+
+	with open('filter_generator_bases.json', 'w') as f:
+		json.dump(debugDict, f, indent=4, sort_keys=True)
 
 	if len(itemDict) > 0:
 		#print itemDict.keys()
